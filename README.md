@@ -1,13 +1,7 @@
 # Activity Timeline
 
-<div class="filament-hidden">
-    
-![Header](https://raw.githubusercontent.com/199ocero/activity-timeline/main/art/images/jaocero-activity-timeline.jpeg)
-
-</div>
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/jaocero/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/jaocero/activity-timeline)
-[![Total Downloads](https://img.shields.io/packagist/dt/jaocero/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/jaocero/activity-timeline)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/lara-zeus/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/lara-zeus/activity-timeline)
+[![Total Downloads](https://img.shields.io/packagist/dt/lara-zeus/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/lara-zeus/activity-timeline)
 
 Add timelines to custom pages or infolist entries effortlessly. Plus, it teams up smoothly with Spatie Activitylog for easy tracking.
 
@@ -16,7 +10,7 @@ Add timelines to custom pages or infolist entries effortlessly. Plus, it teams u
 You can install the package via composer:
 
 ```bash
-composer require jaocero/activity-timeline
+composer require lara-zeus/activity-timeline
 ```
 
 To adhere to Filament's theming approach, you'll be required to employ a personalized theme in order to utilize this plugin.
@@ -199,7 +193,7 @@ Changes are needed in your custom page. Instead of extending using the regular `
 
 ```php
 use App\Filament\Resources\OrderResource;
-use JaOcero\ActivityTimeline\Pages\ActivityTimelinePage;
+use LaraZeus\ActivityTimeline\Pages\ActivityTimelinePage;
 
 class ViewOrderActivities extends ActivityTimelinePage
 {
@@ -213,7 +207,7 @@ Behind the scenes, the plugin utilizes the previously mentioned infolists entry.
 
 ```php
 use App\Filament\Resources\OrderResource;
-use JaOcero\ActivityTimeline\Pages\ActivityTimelinePage;
+use LaraZeus\ActivityTimeline\Pages\ActivityTimelinePage;
 
 class ViewOrderActivities extends ActivityTimelinePage
 {

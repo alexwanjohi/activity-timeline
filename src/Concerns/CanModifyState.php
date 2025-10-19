@@ -1,6 +1,6 @@
 <?php
 
-namespace JaOcero\ActivityTimeline\Concerns;
+namespace LaraZeus\ActivityTimeline\Concerns;
 
 use Closure;
 use Illuminate\Support\HtmlString;

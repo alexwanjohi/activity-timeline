@@ -1,11 +1,12 @@
 <?php
 
-namespace JaOcero\ActivityTimeline\Components;
+namespace LaraZeus\ActivityTimeline\Components;
 
 use Closure;
 use Filament\Infolists\Components\Entry;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
-use JaOcero\ActivityTimeline\Concerns\HasEmptyState;
+use LaraZeus\ActivityTimeline\Concerns\HasEmptyState;
 
 class ActivitySection extends Entry
 {
@@ -118,7 +119,7 @@ class ActivitySection extends Entry
     }
 
     /**
-     * @return array<\Filament\Schemas\Schema>
+     * @return array<Schema>
      */
     public function getChildComponentContainers(bool $withHidden = false): array
     {
@@ -130,7 +131,7 @@ class ActivitySection extends Entry
 
         foreach ($this->getState() ?? [] as $itemKey => $itemData) {
             $container = $this
-                ->getChildComponentContainer()
+                ->getChildSchema()
                 ->getClone()
                 ->statePath($itemKey)
                 ->inlineLabel(false);

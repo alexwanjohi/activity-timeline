@@ -1,10 +1,10 @@
 <?php
 
-namespace JaOcero\ActivityTimeline\Components;
+namespace LaraZeus\ActivityTimeline\Components;
 
 use Filament\Forms\Components\Concerns\CanAllowHtml;
 use Filament\Infolists\Components\Entry;
-use JaOcero\ActivityTimeline\Concerns\CanModifyState;
+use LaraZeus\ActivityTimeline\Concerns\CanModifyState;
 
 class ActivityDescription extends Entry
 {

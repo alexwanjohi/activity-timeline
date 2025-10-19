@@ -1,16 +1,16 @@
 <?php
 
-namespace JaOcero\ActivityTimeline\Concerns;
+namespace LaraZeus\ActivityTimeline\Concerns;
 
 use Filament\Schemas\Schema;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use JaOcero\ActivityTimeline\Components\ActivityDate;
-use JaOcero\ActivityTimeline\Components\ActivityDescription;
-use JaOcero\ActivityTimeline\Components\ActivityIcon;
-use JaOcero\ActivityTimeline\Components\ActivitySection;
-use JaOcero\ActivityTimeline\Components\ActivityTitle;
+use LaraZeus\ActivityTimeline\Components\ActivityDate;
+use LaraZeus\ActivityTimeline\Components\ActivityDescription;
+use LaraZeus\ActivityTimeline\Components\ActivityIcon;
+use LaraZeus\ActivityTimeline\Components\ActivitySection;
+use LaraZeus\ActivityTimeline\Components\ActivityTitle;
 
 trait HasSetting
 {
@@ -59,6 +59,7 @@ trait HasSetting
     {
         $activityTitle = $this->modifiedState()['activity_title']['modify_state'];
         $activityDescription = $this->modifiedState()['activity_description']['modify_state'];
+        $activityDate = $this->modifiedState()['activity_date']['modify_state'];
 
         if (isset($this->configuration()['activity_title']['modify_state'])) {
             $activityTitle = $this->configuration()['activity_title']['modify_state'];
@@ -66,6 +67,9 @@ trait HasSetting
 
         if (isset($this->configuration()['activity_description']['modify_state'])) {
             $activityDescription = $this->configuration()['activity_description']['modify_state'];
+        }
+        if (isset($this->configuration()['activity_date']['modify_state'])) {
+            $activityDate = $this->configuration()['activity_date']['modify_state'];
         }
 
         return $schema
@@ -87,7 +91,9 @@ trait HasSetting
                             ->modifyState($activityDescription),
                         ActivityDate::make($this->configuration()['activity_date']['name'])
                             ->date($this->configuration()['activity_date']['date'])
-                            ->placeholder($this->configuration()['activity_date']['placeholder']),
+                            ->placeholder($this->configuration()['activity_date']['placeholder'])
+                            ->allowHtml($this->configuration()['activity_description']['allow_html'])
+                            ->modifyState($activityDate),
                         ActivityIcon::make('event')
                             ->icon($this->configuration()['activity_icon']['icon'])
                             ->color($this->configuration()['activity_icon']['color']),
@@ -106,17 +112,22 @@ trait HasSetting
             ->columns(1);
     }
 
-    private function getActivityLogRecord(): Collection
+    protected function getActivites(): \Illuminate\Database\Eloquent\Collection
     {
         $activityModelClass = config('activitylog.activity_model');
         $activityModel = new $activityModelClass;
 
-        $activities = $activityModel::query()
-            ->with('causer')
+        return $activityModel::query()
+            ->with(['causer', 'subject'])
             ->where('subject_id', $this->record->id)
             ->where('subject_type', get_class($this->record))
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    private function getActivityLogRecord(): Collection
+    {
+        $activities = $this->getActivites();
 
         $activities->transform(function ($activity) {
 
@@ -134,6 +145,18 @@ trait HasSetting
         });
 
         return $activities;
+    }
+
+    private static function formatValue($value)
+    {
+        if ($value === null) {
+            return '—';
+        }
+        if (is_array($value)) {
+            return json_encode($value);
+        }
+
+        return $value;
     }
 
     private function modifiedState(): array
@@ -164,8 +187,11 @@ trait HasSetting
                         $changes = [];
 
                         foreach ($newValues as $key => $newValue) {
-                            if (isset($oldValues[$key]) && $oldValues[$key] != $newValue) {
-                                $changes[] = "- {$key} from <strong>".htmlspecialchars($oldValues[$key]).'</strong> to <strong>'.htmlspecialchars($newValue).'</strong>';
+                            $oldValue = self::formatValue($oldValues[$key] ?? null);
+                            $newValue = self::formatValue($newValue);
+
+                            if ($oldValue != $newValue) {
+                                $changes[] = "- {$key} from <strong>".htmlspecialchars($oldValue).'</strong> to <strong>'.htmlspecialchars($newValue).'</strong>';
                             }
                         }
 
@@ -175,6 +201,11 @@ trait HasSetting
                     }
 
                     return null;
+                },
+            ],
+            'activity_date' => [
+                'modify_state' => function ($state) {
+                    return new HtmlString($state);
                 },
             ],
         ];
