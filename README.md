@@ -1,8 +1,5 @@
 # Activity Timeline
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/lara-zeus/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/lara-zeus/activity-timeline)
-[![Total Downloads](https://img.shields.io/packagist/dt/lara-zeus/activity-timeline.svg?style=flat-square)](https://packagist.org/packages/lara-zeus/activity-timeline)
-
 >This is a maintained fork from the package by [199ocero](https://github.com/199ocero/activity-timeline) to support filament v4
 
 <h4 align="center">Add timelines to custom pages or infolist entries effortlessly. Plus, it teams up smoothly with Spatie Activitylog for easy tracking..</h4>
