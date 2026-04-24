@@ -18,3 +18,15 @@ Add these source paths to your app stylesheet (for example `resources/css/app.cs
 @source "../../vendor/lara-zeus/activity-timeline/resources/views/**/*.blade.php";
 @source "../../vendor/lara-zeus/activity-timeline/resources/views/themes/**/*.blade.php";
 ```
+
+## Style customization
+
+Similar to Filament, this plugin also includes CSS `hook` classes that enable the customization of different HTML elements through CSS.
+
+```css
+.fi-timeline-section {
+    @apply bg-transparent !important;
+}
+```
+
+This plugin comes with numerous CSS `hook` classes. For a straightforward approach, consider using your browser's developer tools to carefully examine the element and identify these classes.
