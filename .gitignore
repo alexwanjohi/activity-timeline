@@ -3,9 +3,7 @@
 .phpunit.result.cache
 .vscode
 build
-composer.lock
 coverage
-docs
 node_modules
 phpunit.xml
 phpstan.neon
